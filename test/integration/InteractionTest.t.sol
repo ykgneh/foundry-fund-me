@@ -1,10 +1,11 @@
-//SPDX-License-Identifier: MIT  
+//SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
 import {Test, console} from "forge-std/Test.sol";
 import {FundMe} from "../../src/FundMe.sol";
 import {DeployFundMe} from "../../script/DeployFundMe.s.sol";
 import {FundingFundMe, WithdrawingFundMe} from "../../script/Interactions.s.sol";
+
 contract InteractionTest is Test {
     FundMe fundMe;
     address USER = makeAddr("user");
@@ -16,6 +17,7 @@ contract InteractionTest is Test {
         fundMe = deploy.run();
         vm.deal(USER, STARTING_BALANCE);
     }
+
     function testUserCanFundInteractions() public {
         FundingFundMe fundingFundMe = new FundingFundMe();
         fundingFundMe.fundFundMe(address(fundMe));
@@ -24,6 +26,5 @@ contract InteractionTest is Test {
         withdrawingFundMe.withdrawFundMe(address(fundMe));
 
         assert(address(fundMe).balance == 0);
-
     }
 }
